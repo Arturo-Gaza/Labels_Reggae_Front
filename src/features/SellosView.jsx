@@ -23,7 +23,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
-import { SELLOS_GETALL, RECORD_GETALL, CREAR_SELLO, PAIS_GETALL } from '../constants/Apis';
+import {
+    SELLOS_GETALL,
+    RECORD_GETALL,
+    CREAR_SELLO,
+    PAIS_GETALL,
+    UPDATE_SELLO
+} from '../constants/Apis';
 import { useSnackbar } from "../components/context/SnackbarProvider";
 import AlbumIcon from '@mui/icons-material/Album';
 import { useNavigate } from "react-router-dom";
@@ -64,8 +70,8 @@ const SellosList = () => {
             showSnackbar(response.data.message, "success");
         } catch (error) {
             console.error("Error al cargar sellos:", error);
-        }finally{
-            
+        } finally {
+
         }
     };
 
@@ -165,8 +171,9 @@ const SellosList = () => {
     };
 
     const handleEditar = (sello) => {
-        const paisEncontrado = pais.find((p) => p.nombre_pais === sello.nombre_pais);
-        const recordEncontrado = records.find((r) => r.nombre_record === sello.nombre_record);
+        const paisEncontrado = pais.find((p) => p.nombre_pais === sello.id_pais__nombre_pais);
+        const recordEncontrado = records.find((r) => r.nombre_record === sello.id_record__nombre_record);
+
         setNuevoSello({
             id_sello: sello.id_sello,
             nombre_sello: sello.nombre_sello,
@@ -175,8 +182,32 @@ const SellosList = () => {
             id_record: recordEncontrado?.id_record || "",
             label: sello.label || "",
         });
+
         setOpen(true);
     }
+
+    const handlerActualizar = () => {
+        setLoading(true);
+        console.log("los datos de sellos ", nuevoSello)
+        axios
+            .put(UPDATE_SELLO + nuevoSello.id_sello + "/", nuevoSello)
+            .then((response) => {
+                showSnackbar(response.data.message, "success");
+                handlClose();
+            })
+            .catch((err) => {
+                const response = err.response?.data;
+                let message = response?.message || "";
+                if (response?.errors) {
+                    message += ": " + Object.values(response.errors).flat().join(" | ");
+                }
+                showSnackbar(message || "Error desconocido al guardar", "error");
+                console.error("Error al guardar:", err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
 
     return (
@@ -187,31 +218,45 @@ const SellosList = () => {
                 width: "98.9vw",
                 boxSizing: "border-box",
                 overflowX: "hidden",
-                border: "solid",
                 p: 1,
                 mt: "-6%"
             }}>
-            <Grid>
-                <Typography variant="h4" sx={{ color: "black" }}>
-                    Sellos
-                </Typography>
+
+            <Grid
+                container
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                    mb: 2,
+                    mt: {xs: 1, sm: 5, md: 10 }
+                }}
+            >
+                <Grid item>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            color: "black"
+                        }}
+                    >
+                        Sellos
+                    </Typography>
+                </Grid>
+
+                <Grid item>
+                    <Button
+                        className="btn-sellos"
+                        variant="contained"
+                        onClick={handleVerSellos}
+                    >
+                        Ver Sellos
+                    </Button>
+                </Grid>
             </Grid>
 
-            <Grid sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                mb: 2,
-                border: "solid "
-            }}>
-                <Button
-                    variant="contained"
-                    onClick={handleVerSellos}>Ver Sellos</Button>
-            </Grid>
             <Box sx={{
                 display: "flex",
                 justifyContent: "flex-end",
                 mb: 2,
-                border: "solid "
             }}>
                 <IconButton onClick={handlOpen} sx={{ border: "solid 1px #ccc" }}>
                     <AlbumIcon sx={{ fontSize: 40, color: "black" }} />
@@ -316,7 +361,20 @@ const SellosList = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button className="btn-cancelar" onClick={handlClose}>Cancelar</Button>
-                    <Button className="btn-aceptar" onClick={handleGuardar} variant="contained">Guardar</Button>
+                    {nuevoSello.id_sello ? (
+                        <Button
+                            className="btn-aceptar"
+                            onClick={handlerActualizar}
+                            variant="contained">
+                            Actualizar</Button>
+                    ) : (
+                        <Button
+                            className="btn-aceptar"
+                            onClick={handleGuardar}
+                            variant="contained">
+                            Guardar</Button>
+                    )}
+
                 </DialogActions>
             </Dialog>
 

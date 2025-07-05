@@ -62,7 +62,7 @@ const Records = () => {
 
     };
 
-    
+
 
     useEffect(() => {
         getRecords();
@@ -111,8 +111,13 @@ const Records = () => {
 
     const handlerActualizar = () => {
         setLoading(true);
+        const selloActualizado = {
+            ...nuevoSello,
+            updated_at: new Date().toISOString(),  
+        };
+        console.log("actualizar",selloActualizado )
         axios
-            .put(UPDATE_RECORD + nuevoSello.id_record + "/", nuevoSello)
+            .put(UPDATE_RECORD + nuevoSello.id_record + "/", selloActualizado)
             .then((response) => {
                 showSnackbar(response.data.message, "success");
                 handlClose();
@@ -163,7 +168,7 @@ const Records = () => {
         })
         setOpen(true);
     }
-    
+
 
     return (
         <Box sx={{
@@ -299,10 +304,11 @@ const Records = () => {
                                         />
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Box sx={{ 
-                                            display: 'flex', 
-                                            justifyContent: 'center', 
-                                            gap: 1 }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            gap: 1
+                                        }}>
                                             <IconButton onClick={() => handlerEditar(record)}>
                                                 <AppRegistrationIcon sx={{ color: "black" }} />
                                             </IconButton>

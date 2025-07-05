@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #ffffff;
+  background-color: #f1f1f1;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -81,4 +81,10 @@ h1 {
 .btn-cancelar{
   background-color: #ff0000 !important;
   color: #f9f9f9 !important;
+}
+
+.btn-sellos{
+  background-color: blue !important;
+  width: 150px !important;
+  height: 40px;
 }

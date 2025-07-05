@@ -31,7 +31,7 @@ const Navbar = () => {
                     right: 0,
                     boder: "solid red",
                     background: "black",
-                    zIndex: (theme) => theme.zIndex.drawer + 1 // para que quede sobre el drawer
+                    zIndex: (theme) => theme.zIndex.drawer + 1 
                 }}
             >
                 <Toolbar>
@@ -105,10 +105,7 @@ const Navbar = () => {
                         }),
                 }}
             >
-                {/* Aquí va el Outlet o contenido principal */}
-                <Typography paragraph>
-                    Contenido principal que se mueve a la derecha cuando el drawer está abierto.
-                </Typography>
+               
             </Box>
         </>
     );

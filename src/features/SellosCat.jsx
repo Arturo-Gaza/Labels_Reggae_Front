@@ -14,7 +14,7 @@ import {
 import LoadingScreen from "../components/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
-import { SELLOS_GETALL} from '../constants/Apis';
+import { SELLOS_GETALL } from '../constants/Apis';
 
 <Flag code="jm" style={{ width: 64, height: 40 }} />
 
@@ -54,29 +54,43 @@ const SellosCards = () => {
                 mt: "-6%"
             }}>
 
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                }}>
                 <Button variant="contained" onClick={handleVerSellos}>
                     Tabla Sellos
                 </Button>
             </Box>
             <LoadingScreen open={loading} />
             <section id="sellos">
-                <Container sx={{ mt: 10 }}>
-                    <Grid container spacing={6}>
+                <Container
+                    sx={{
+                        mt: 10,
+                    }}>
+                    <Grid
+                        container
+                        spacing={6}
+                        sx={{
+                            border: "solid",
+                            p: 2
+                        }}>
                         {sellos.map((sello) => {
                             const imageSrc = sello.label;
 
                             return (
-                                <Grid 
-                                item 
-                                xs={12} 
-                                sm={6} 
-                                md={4} 
-                                key={sello.id_sello}
-                                
-                                
+                                <Grid
+                                    item
+                                    xs={12}
+                                    sm={6}
+                                    md={4}
+                                    key={sello.id_sello}
+
+
                                 >
                                     <Card
+                                        onClick={() => console.log("ID del sello:", sello.id_sello)}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
@@ -85,6 +99,8 @@ const SellosCards = () => {
                                             backgroundColor: "white",
                                             boxShadow: 3,
                                             borderRadius: 2,
+                                            ml: { sm: 3 },
+                                            cursor: "pointer",
                                         }}
                                     >
                                         <CardMedia
@@ -115,7 +131,7 @@ const SellosCards = () => {
                                             <Typography variant="caption" color="black" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                                 {(sello.id_pais__nombre_pais.toLowerCase() === "jamaica" && (
                                                     <Flag code="jm" style={{ width: 35, height: 17, marginLeft: 6 }} />
-                                                ))||(sello.id_pais__nombre_pais.toLowerCase() === "uk" && (
+                                                )) || (sello.id_pais__nombre_pais.toLowerCase() === "uk" && (
                                                     <Flag code="gb" style={{ width: 35, height: 17, marginLeft: 6 }} />
                                                 ))}
                                             </Typography>
