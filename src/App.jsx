@@ -4,6 +4,7 @@ import SellosCards from "../src/features/SellosCat";
 import { SnackbarProvider } from "../src/components/context/SnackbarProvider";
 import Records from "../src/components/Catalogos/Records";
 import Layout from "../src/components/Layout";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route path="login" element={<Login />}/>
             <Route path="sellos" element={<SellosList />} />
             <Route path="sellosCards" element={<SellosCards />} />
             <Route path="record" element={<Records />} />

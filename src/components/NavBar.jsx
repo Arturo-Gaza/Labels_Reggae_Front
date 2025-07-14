@@ -11,11 +11,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false);
+    const location = useLocation();
+    const isLoginPage = location.pathname === "/login";
+
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -31,27 +35,35 @@ const Navbar = () => {
                     right: 0,
                     boder: "solid red",
                     background: "black",
-                    zIndex: (theme) => theme.zIndex.drawer + 1 
+                    zIndex: (theme) => theme.zIndex.drawer + 1
                 }}
             >
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
+                    {!isLoginPage && (
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={toggleDrawer}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                    )}
+                    {!isLoginPage && (
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            Menú
+                        </Typography>
+                    )}
+                    <Button
                         color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={toggleDrawer}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
+                        component={Link}
+                        to="/login"
+                    >Login</Button>
                 </Toolbar>
             </AppBar>
-            {/* Toolbar vacío para reservar espacio debajo del AppBar fijo */}
             <Toolbar />
 
             {/* Drawer lateral */}
@@ -105,7 +117,7 @@ const Navbar = () => {
                         }),
                 }}
             >
-               
+
             </Box>
         </>
     );

@@ -190,7 +190,7 @@ const SellosList = () => {
         setLoading(true);
         console.log("los datos de sellos ", nuevoSello)
         axios
-            .put(UPDATE_SELLO + nuevoSello.id_sello + "/", nuevoSello)
+            .put(UPDATE_SELLO + nuevoSello.id_sello, nuevoSello)
             .then((response) => {
                 showSnackbar(response.data.message, "success");
                 handlClose();

@@ -117,7 +117,7 @@ const Records = () => {
         };
         console.log("actualizar",selloActualizado )
         axios
-            .put(UPDATE_RECORD + nuevoSello.id_record + "/", selloActualizado)
+            .put(UPDATE_RECORD + nuevoSello.id_record , selloActualizado)
             .then((response) => {
                 showSnackbar(response.data.message, "success");
                 handlClose();
